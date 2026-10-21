@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paperpage"
+version = "0.1.0"
+description = "Build project-page drafts from LaTeX paper bundles"
+readme = "UPSTREAM.md"
+requires-python = ">=3.10"
+dependencies = [
+  "Jinja2>=3.1",
+  "Pillow>=10.0",
+  "PyYAML>=6.0",
+]
+
+[project.scripts]
+paperpage = "paperpage.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+paperpage = [
+  "defaults/*.yml",
+  "templates/*/*.j2",
+  "templates/*/static/*.css",
+  "templates/*/static/*.js",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

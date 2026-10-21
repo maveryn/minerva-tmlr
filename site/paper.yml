@@ -1,0 +1,146 @@
+paper_path: .
+source_dir: .
+main_tex: minerva-camera-ready.tex
+title: 'Minerva: Reinforcement Learning with Verifiable Rewards for Cyber Threat Intelligence
+  LLMs'
+authors:
+- Md Tanvirul Alam
+- Aritran Piplai
+- Ionut Cardei
+- Nidhi Rastogi
+- Peter J Worth Jr
+affiliations:
+- Rochester Institute of Technology, Rochester, NY, USA
+- University of Texas at El Paso, El Paso, TX, USA
+- Florida Atlantic University, Boca Raton, FL, USA
+author_entries:
+- name: Md Tanvirul Alam
+  affiliations:
+  - Rochester Institute of Technology, Rochester, NY, USA
+  affiliation_indices:
+  - 1
+- name: Aritran Piplai
+  affiliations:
+  - University of Texas at El Paso, El Paso, TX, USA
+  affiliation_indices:
+  - 2
+- name: Ionut Cardei
+  affiliations:
+  - Florida Atlantic University, Boca Raton, FL, USA
+  affiliation_indices:
+  - 3
+- name: Nidhi Rastogi
+  affiliations:
+  - Rochester Institute of Technology, Rochester, NY, USA
+  affiliation_indices:
+  - 1
+- name: Peter J Worth Jr
+  affiliations:
+  - Florida Atlantic University, Boca Raton, FL, USA
+  affiliation_indices:
+  - 3
+abstract: Cyber threat intelligence (CTI) analysts routinely convert noisy, unstructured
+  security artifacts into standardized, automation-ready representations. Although
+  large language models (LLMs) show promise for this task, existing approaches remain
+  brittle when producing structured CTI outputs and have largely relied on supervised
+  fine-tuning (SFT). In contrast, CTI standards and community-maintained resources
+  define canonical identifiers and schemas that enable deterministic verification
+  of model outputs. We leverage this structure to study reinforcement learning with
+  verifiable rewards (RLVR) for CTI tasks. We introduce Minerva, a unified dataset
+  and training pipeline spanning multiple CTI subtasks, each paired with task-specific
+  verifiers that score structured outputs and identifier predictions. To address reward
+  sparsity during rollout, we propose MinervaRL, an auxiliary self-training mechanism
+  that generates additional verified trajectories and distills them back into the
+  model. Averaged across four backbones and 12 CTI benchmarks, MinervaRL improves
+  the mean score by 15.8 percentage points over the corresponding base models and
+  by 4.3 points over GRPO.
+summary: 'From public security knowledge to verifiable learning signals: Minerva trains
+  open-weight language models for structured cyber threat intelligence.'
+venue: ''
+year: '2026'
+section_inputs: []
+sections:
+- title: Introduction
+  source: sections/introduction.tex
+  summary: Cyber threat intelligence (CTI) often requires mapping free-text security
+    information into standardized labels, scores, and structured records that downstream
+    tools can use. In practice, analysts map unstructured inputs such as vulnerability
+    descriptions, detection rules, and incident narratives to standardized frameworks
+    and identifiers, including MITRE ATT&CK (Adversarial Tactics, Techniques, and
+    Common Knowledge) for adversary behavior, Common Vulnerabilities and Exposures
+    (CVE) identifiers, Common Weakness Enumeration (CWE) labels, and Common Vulnerability
+    Scoring System (CVSS) vectors and scores. These standards enable consistent reporting
+    and large-scale exchange through formats and protocols such as Structured Threat
+    Information Expression (STIX) and Trusted Automated Exchange of Intelligence Information
+    (TAXII).
+- title: Related Work
+  source: sections/related.tex
+  summary: LLMs for cyber threat intelligence. LLMs have increasingly been applied
+    to CTI workflows that require extracting, normalizing, and grounding security-relevant
+    information from unstructured reports. A central task is mapping tactics, techniques,
+    and procedures (TTPs) from natural-language threat reports to MITRE ATT&CK.
+- title: Minerva-CTI Dataset
+  source: sections/dataset.tex
+  summary: We introduce Minerva-CTI, a unified CTI training suite curated from standards,
+    knowledge bases, and community-maintained security resources, including MITRE
+    ATT&CK, MITRE CAPEC, the National Vulnerability Database (NVD), Mappings Explorer,
+    and detection or emulation corpora such as Sigma, Atomic Red Team, Microsoft Sentinel,
+    and Splunk Security Content. From these sources, we define 16 verifier-checkable
+    tasks spanning vulnerability mapping, detection-rule mapping, and procedure-oriented
+    CTI reasoning. Tasks include predicting ATT&CK techniques, tactics, and mitigations;
+    mapping CVEs to CWE labels and CVSS v3.1 vectors; attributing threat actors based
+    on observed behaviors; and linking CAPEC examples to attack patterns or weaknesses.
+- title: Methodology
+  source: sections/method.tex
+  summary: We train CTI models using reinforcement learning with verifiable rewards
+    (RLVR). Let $x $ denote a prompt, $y $ a model-generated output sequence, and
+    $y^ $ the canonical target answer for $x$. Each training task is paired with a
+    deterministic programmatic verifier $R_ minerva:X [0,1]$, which extracts the final
+    answer from $y$, normalizes it, and scores it against $y^ $.
+- title: Experiments
+  source: sections/experiments.tex
+  summary: We evaluate on the 12 CTI evaluation tasks in tab:main-results, covering
+    multiple-choice cybersecurity and CTI knowledge, structured taxonomy prediction,
+    SOC-style reasoning, and information extraction. These tasks include CKT, a five-option
+    CTI knowledge QA benchmark; CyberMetric, a four-option cybersecurity knowledge
+    QA benchmark; SOCEval, multi-select SOC-style reasoning over threat-intelligence
+    reports; RCM, CVE-to-CWE root-cause mapping; VSP, CVSS v3.1 base-vector prediction;
+    ATE, ATT&CK technique identification from attack scenarios; RMS, ATT&CK mitigation
+    recommendation; ElasticRule, Elastic detection-rule to ATT&CK technique mapping;
+    APTNER, APT-focused named-entity recognition; LANCE, IoC identification over IP,
+    URL, domain, and hash candidates; AnnoCTR, STIX-style entity and relation extraction;
+    and AZERG, STIX-style entity and relation extraction from CTI text. Full task
+    definitions, output formats, and sample counts are provided in Appendix.
+- title: CTI Benchmark Results
+  source: sections/results.tex
+  summary: Aggregate task scores. tab:main-results reports absolute scores across
+    the 12 CTI evaluation tasks and four open-weight backbone families. Standard GRPO
+    improves the average score over each matched base model, raising Llama-3.1-8B
+    from 48.6 to 56.0, Llama-3.2-3B from 33.1 to 42.1, Qwen3-8B from 37.6 to 47.0,
+    and Qwen3-4B from 27.6 to 47.6.
+- title: Training Dynamics and Additional Evaluations
+  source: sections/ablation.tex
+  summary: 'A central challenge in CTI RLVR is reward sparsity: for some prompts,
+    none of the sampled rollouts receives any verifier reward, leaving GRPO with no
+    within-prompt reward contrast for that example. We track this failure mode using
+    the zero-solve fraction, defined as the fraction of prompts whose rollout group
+    has maximum verifier reward equal to $0$. Unlike the ACR gate, which uses $m_i<1$,
+    this diagnostic excludes partial-credit groups with $0<m_i<1$.'
+- title: Limitations and Future Work
+  source: sections/limitations.tex
+  summary: Our study has several limitations. Uncertainty and training variation.
+    Our paired bootstrap confidence intervals capture variation over evaluation examples
+    for fixed checkpoints, not variation across independent training seeds.
+- title: Conclusion
+  source: sections/conclusion.tex
+  summary: We presented Minerva, a verifiable-reward training framework for cyber
+    threat intelligence LLMs. Minerva-CTI provides verifier-checkable tasks across
+    vulnerability, detection, and procedure-oriented workflows, while MinervaRL extends
+    GRPO with hardness-gated answer-conditioned rationale generation and original-prompt
+    distillation. Across 12 CTI benchmarks and four open-weight backbones, MinervaRL
+    improves the average score over matched base models, standard GRPO, controlled
+    SFT/rejection-finetuning baselines, and an off-policy RL baseline.
+figure_assets: []
+table_assets: []
+bibliography_files: []
+candidate_hero_assets: []

@@ -1,0 +1,56 @@
+theme: academic-project-page
+
+site:
+  title_suffix: "Project Page"
+  show_generation_note: false
+  show_venue_line: true
+  cta_links:
+    - label: Paper
+      key: paper_pdf
+      icon: pdf
+    - label: Code
+      key: code
+      icon: github
+    - label: Data
+      key: data
+      icon: data
+
+assets:
+  copies: []
+
+hero:
+  figure: null
+
+gallery:
+  max_items: 4
+
+story:
+  min_items: 3
+  max_items: 6
+
+sections:
+  show_abstract: true
+  show_highlights: false
+  show_story: true
+  show_bibtex: true
+
+highlights:
+  items: []
+
+links: {}
+
+instructions: |
+  Build a concise academic project page from the paper. Prioritize title, authors, abstract,
+  strong visual figures, and a small number of key results. The page should read like a paper
+  summary, not a repository tour. Prefer a single teaser figure with a short summary above the
+  abstract instead of mixing unrelated setup and results cards in the hero. Avoid duplicating the
+  same visual material in adjacent sections unless the repetition is necessary. Prefer visually
+  explanatory figures over dense appendix plots, but use appendix material when it is the clearest
+  benchmark or task overview. When a paper has clearly distinct intervention families or analysis
+  modes, give them separate story sections instead of collapsing them into one umbrella block. When
+  two related result plots belong together, prefer a side-by-side section layout rather than stacking
+  them vertically; if the evidence should sit above the explanation, use a top-gallery layout and put
+  the text below. If setup and results need different emphasis, split them into consecutive sections.
+  Keep desktop titles to one or two lines when feasible. Use automatic section selection only as
+  a first draft; once the right story is clear, capture it in project config. When explicit user
+  instructions are present, they override these defaults.

@@ -1,0 +1,492 @@
+{
+  "source": "Paper Table 1, greedy single-sample evaluation; averages across 12 task metrics.",
+  "backbones": [
+    "Llama-3.1-8B",
+    "Llama-3.2-3B",
+    "Qwen3-8B",
+    "Qwen3-4B"
+  ],
+  "tasks": [
+    "CKT",
+    "CyberMetric",
+    "SOCEval",
+    "RCM",
+    "VSP",
+    "ATE",
+    "RMS",
+    "ElasticRule",
+    "APTNER",
+    "LANCE",
+    "AnnoCTR",
+    "AZERG"
+  ],
+  "rows": [
+    {
+      "backbone": "Llama-3.1-8B",
+      "method": "Base",
+      "scores": {
+        "CKT": 67.6,
+        "CyberMetric": 83.2,
+        "SOCEval": 64.8,
+        "RCM": 48.4,
+        "VSP": 76.0,
+        "ATE": 17.4,
+        "RMS": 6.7,
+        "ElasticRule": 14.4,
+        "APTNER": 33.5,
+        "LANCE": 78.2,
+        "AnnoCTR": 50.7,
+        "AZERG": 42.8
+      },
+      "average": 48.6
+    },
+    {
+      "backbone": "Llama-3.1-8B",
+      "method": "STaR-CTI",
+      "scores": {
+        "CKT": 70.0,
+        "CyberMetric": 81.8,
+        "SOCEval": 61.7,
+        "RCM": 57.4,
+        "VSP": 73.8,
+        "ATE": 29.2,
+        "RMS": 9.6,
+        "ElasticRule": 21.3,
+        "APTNER": 33.1,
+        "LANCE": 80.0,
+        "AnnoCTR": 46.5,
+        "AZERG": 32.1
+      },
+      "average": 49.7
+    },
+    {
+      "backbone": "Llama-3.1-8B",
+      "method": "DART-CTI",
+      "scores": {
+        "CKT": 71.3,
+        "CyberMetric": 82.4,
+        "SOCEval": 61.5,
+        "RCM": 64.0,
+        "VSP": 73.0,
+        "ATE": 37.8,
+        "RMS": 27.7,
+        "ElasticRule": 31.0,
+        "APTNER": 34.0,
+        "LANCE": 74.8,
+        "AnnoCTR": 47.1,
+        "AZERG": 39.3
+      },
+      "average": 53.7
+    },
+    {
+      "backbone": "Llama-3.1-8B",
+      "method": "GRPO",
+      "scores": {
+        "CKT": 71.9,
+        "CyberMetric": 85.4,
+        "SOCEval": 63.0,
+        "RCM": 66.3,
+        "VSP": 82.6,
+        "ATE": 32.0,
+        "RMS": 30.9,
+        "ElasticRule": 32.2,
+        "APTNER": 32.7,
+        "LANCE": 86.2,
+        "AnnoCTR": 49.5,
+        "AZERG": 39.5
+      },
+      "average": 56.0
+    },
+    {
+      "backbone": "Llama-3.1-8B",
+      "method": "LUFFY-CTI",
+      "scores": {
+        "CKT": 73.9,
+        "CyberMetric": 83.7,
+        "SOCEval": 63.3,
+        "RCM": 63.8,
+        "VSP": 79.6,
+        "ATE": 40.6,
+        "RMS": 34.3,
+        "ElasticRule": 33.8,
+        "APTNER": 35.4,
+        "LANCE": 82.4,
+        "AnnoCTR": 49.7,
+        "AZERG": 43.1
+      },
+      "average": 57.0
+    },
+    {
+      "backbone": "Llama-3.1-8B",
+      "method": "MinervaRL",
+      "scores": {
+        "CKT": 73.9,
+        "CyberMetric": 84.2,
+        "SOCEval": 64.7,
+        "RCM": 68.8,
+        "VSP": 87.6,
+        "ATE": 48.4,
+        "RMS": 42.1,
+        "ElasticRule": 40.5,
+        "APTNER": 34.1,
+        "LANCE": 84.6,
+        "AnnoCTR": 50.3,
+        "AZERG": 43.7
+      },
+      "average": 60.2
+    },
+    {
+      "backbone": "Llama-3.2-3B",
+      "method": "Base",
+      "scores": {
+        "CKT": 71.6,
+        "CyberMetric": 77.0,
+        "SOCEval": 55.7,
+        "RCM": 15.2,
+        "VSP": 2.8,
+        "ATE": 1.0,
+        "RMS": 0.4,
+        "ElasticRule": 1.2,
+        "APTNER": 25.4,
+        "LANCE": 77.8,
+        "AnnoCTR": 35.9,
+        "AZERG": 32.8
+      },
+      "average": 33.1
+    },
+    {
+      "backbone": "Llama-3.2-3B",
+      "method": "STaR-CTI",
+      "scores": {
+        "CKT": 64.3,
+        "CyberMetric": 70.5,
+        "SOCEval": 50.3,
+        "RCM": 36.4,
+        "VSP": 53.4,
+        "ATE": 4.2,
+        "RMS": 7.0,
+        "ElasticRule": 1.9,
+        "APTNER": 21.4,
+        "LANCE": 76.3,
+        "AnnoCTR": 33.8,
+        "AZERG": 28.0
+      },
+      "average": 37.3
+    },
+    {
+      "backbone": "Llama-3.2-3B",
+      "method": "DART-CTI",
+      "scores": {
+        "CKT": 73.0,
+        "CyberMetric": 78.2,
+        "SOCEval": 54.5,
+        "RCM": 54.9,
+        "VSP": 61.2,
+        "ATE": 16.8,
+        "RMS": 17.8,
+        "ElasticRule": 11.6,
+        "APTNER": 22.5,
+        "LANCE": 73.8,
+        "AnnoCTR": 38.7,
+        "AZERG": 25.7
+      },
+      "average": 44.0
+    },
+    {
+      "backbone": "Llama-3.2-3B",
+      "method": "GRPO",
+      "scores": {
+        "CKT": 71.2,
+        "CyberMetric": 77.8,
+        "SOCEval": 58.3,
+        "RCM": 48.9,
+        "VSP": 56.5,
+        "ATE": 5.2,
+        "RMS": 15.4,
+        "ElasticRule": 5.3,
+        "APTNER": 27.5,
+        "LANCE": 70.6,
+        "AnnoCTR": 38.5,
+        "AZERG": 29.7
+      },
+      "average": 42.1
+    },
+    {
+      "backbone": "Llama-3.2-3B",
+      "method": "LUFFY-CTI",
+      "scores": {
+        "CKT": 70.6,
+        "CyberMetric": 78.5,
+        "SOCEval": 55.4,
+        "RCM": 43.8,
+        "VSP": 71.6,
+        "ATE": 19.4,
+        "RMS": 24.2,
+        "ElasticRule": 20.4,
+        "APTNER": 15.0,
+        "LANCE": 68.0,
+        "AnnoCTR": 46.0,
+        "AZERG": 32.1
+      },
+      "average": 45.4
+    },
+    {
+      "backbone": "Llama-3.2-3B",
+      "method": "MinervaRL",
+      "scores": {
+        "CKT": 71.0,
+        "CyberMetric": 78.1,
+        "SOCEval": 54.6,
+        "RCM": 57.2,
+        "VSP": 77.1,
+        "ATE": 21.8,
+        "RMS": 29.3,
+        "ElasticRule": 20.1,
+        "APTNER": 16.7,
+        "LANCE": 82.2,
+        "AnnoCTR": 37.9,
+        "AZERG": 33.7
+      },
+      "average": 48.3
+    },
+    {
+      "backbone": "Qwen3-8B",
+      "method": "Base",
+      "scores": {
+        "CKT": 71.7,
+        "CyberMetric": 69.3,
+        "SOCEval": 63.8,
+        "RCM": 52.6,
+        "VSP": 69.0,
+        "ATE": 13.4,
+        "RMS": 6.5,
+        "ElasticRule": 9.0,
+        "APTNER": 31.3,
+        "LANCE": 45.1,
+        "AnnoCTR": 9.8,
+        "AZERG": 9.8
+      },
+      "average": 37.6
+    },
+    {
+      "backbone": "Qwen3-8B",
+      "method": "STaR-CTI",
+      "scores": {
+        "CKT": 37.9,
+        "CyberMetric": 49.3,
+        "SOCEval": 65.1,
+        "RCM": 36.8,
+        "VSP": 68.7,
+        "ATE": 15.6,
+        "RMS": 3.5,
+        "ElasticRule": 4.9,
+        "APTNER": 37.9,
+        "LANCE": 55.7,
+        "AnnoCTR": 40.0,
+        "AZERG": 26.4
+      },
+      "average": 36.8
+    },
+    {
+      "backbone": "Qwen3-8B",
+      "method": "DART-CTI",
+      "scores": {
+        "CKT": 39.2,
+        "CyberMetric": 55.7,
+        "SOCEval": 65.2,
+        "RCM": 47.1,
+        "VSP": 72.7,
+        "ATE": 14.0,
+        "RMS": 6.5,
+        "ElasticRule": 16.4,
+        "APTNER": 37.9,
+        "LANCE": 76.4,
+        "AnnoCTR": 46.5,
+        "AZERG": 36.6
+      },
+      "average": 42.9
+    },
+    {
+      "backbone": "Qwen3-8B",
+      "method": "GRPO",
+      "scores": {
+        "CKT": 69.8,
+        "CyberMetric": 72.7,
+        "SOCEval": 69.0,
+        "RCM": 60.5,
+        "VSP": 68.8,
+        "ATE": 23.6,
+        "RMS": 8.2,
+        "ElasticRule": 18.1,
+        "APTNER": 37.7,
+        "LANCE": 66.1,
+        "AnnoCTR": 37.8,
+        "AZERG": 31.1
+      },
+      "average": 47.0
+    },
+    {
+      "backbone": "Qwen3-8B",
+      "method": "LUFFY-CTI",
+      "scores": {
+        "CKT": 78.6,
+        "CyberMetric": 88.3,
+        "SOCEval": 64.8,
+        "RCM": 65.3,
+        "VSP": 73.2,
+        "ATE": 29.4,
+        "RMS": 25.8,
+        "ElasticRule": 32.4,
+        "APTNER": 34.3,
+        "LANCE": 74.5,
+        "AnnoCTR": 45.1,
+        "AZERG": 26.8
+      },
+      "average": 53.2
+    },
+    {
+      "backbone": "Qwen3-8B",
+      "method": "MinervaRL",
+      "scores": {
+        "CKT": 77.8,
+        "CyberMetric": 88.2,
+        "SOCEval": 67.5,
+        "RCM": 64.8,
+        "VSP": 79.4,
+        "ATE": 32.0,
+        "RMS": 20.1,
+        "ElasticRule": 22.0,
+        "APTNER": 37.4,
+        "LANCE": 74.9,
+        "AnnoCTR": 43.0,
+        "AZERG": 33.1
+      },
+      "average": 53.4
+    },
+    {
+      "backbone": "Qwen3-4B",
+      "method": "Base",
+      "scores": {
+        "CKT": 45.6,
+        "CyberMetric": 50.1,
+        "SOCEval": 56.1,
+        "RCM": 45.6,
+        "VSP": 76.5,
+        "ATE": 4.2,
+        "RMS": 6.5,
+        "ElasticRule": 4.6,
+        "APTNER": 1.2,
+        "LANCE": 18.0,
+        "AnnoCTR": 16.6,
+        "AZERG": 6.5
+      },
+      "average": 27.6
+    },
+    {
+      "backbone": "Qwen3-4B",
+      "method": "STaR-CTI",
+      "scores": {
+        "CKT": 76.1,
+        "CyberMetric": 88.2,
+        "SOCEval": 66.1,
+        "RCM": 21.1,
+        "VSP": 80.2,
+        "ATE": 5.8,
+        "RMS": 6.6,
+        "ElasticRule": 12.3,
+        "APTNER": 31.8,
+        "LANCE": 62.0,
+        "AnnoCTR": 46.9,
+        "AZERG": 47.7
+      },
+      "average": 45.4
+    },
+    {
+      "backbone": "Qwen3-4B",
+      "method": "DART-CTI",
+      "scores": {
+        "CKT": 45.4,
+        "CyberMetric": 42.1,
+        "SOCEval": 60.0,
+        "RCM": 54.6,
+        "VSP": 73.8,
+        "ATE": 20.6,
+        "RMS": 5.8,
+        "ElasticRule": 17.1,
+        "APTNER": 27.6,
+        "LANCE": 47.5,
+        "AnnoCTR": 43.2,
+        "AZERG": 35.1
+      },
+      "average": 39.4
+    },
+    {
+      "backbone": "Qwen3-4B",
+      "method": "GRPO",
+      "scores": {
+        "CKT": 74.2,
+        "CyberMetric": 85.8,
+        "SOCEval": 63.9,
+        "RCM": 60.8,
+        "VSP": 88.1,
+        "ATE": 20.2,
+        "RMS": 3.8,
+        "ElasticRule": 20.4,
+        "APTNER": 32.4,
+        "LANCE": 58.2,
+        "AnnoCTR": 39.6,
+        "AZERG": 24.0
+      },
+      "average": 47.6
+    },
+    {
+      "backbone": "Qwen3-4B",
+      "method": "LUFFY-CTI",
+      "scores": {
+        "CKT": 54.1,
+        "CyberMetric": 56.5,
+        "SOCEval": 60.9,
+        "RCM": 59.9,
+        "VSP": 72.6,
+        "ATE": 17.6,
+        "RMS": 10.3,
+        "ElasticRule": 23.4,
+        "APTNER": 29.2,
+        "LANCE": 60.4,
+        "AnnoCTR": 46.7,
+        "AZERG": 36.2
+      },
+      "average": 44.0
+    },
+    {
+      "backbone": "Qwen3-4B",
+      "method": "MinervaRL",
+      "scores": {
+        "CKT": 70.0,
+        "CyberMetric": 80.0,
+        "SOCEval": 64.0,
+        "RCM": 59.9,
+        "VSP": 80.0,
+        "ATE": 25.4,
+        "RMS": 5.1,
+        "ElasticRule": 27.5,
+        "APTNER": 28.0,
+        "LANCE": 56.7,
+        "AnnoCTR": 50.4,
+        "AZERG": 29.1
+      },
+      "average": 48.0
+    }
+  ],
+  "paired_grpo": {
+    "positive": 28,
+    "negative": 7,
+    "overlap": 13,
+    "point_wins": 34,
+    "total": 48
+  },
+  "headline_gains": {
+    "base": 15.8,
+    "grpo": 4.3
+  }
+}

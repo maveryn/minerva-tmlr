@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ manifest.title }}{% if page.site.title_suffix %} | {{ page.site.title_suffix }}{% endif %}</title>
+  <style>
+    :root {
+      --paper-bg: #fffdf8;
+      --ink: #183247;
+      --muted: #576a79;
+      --accent: #9f7a4b;
+      --card: #ffffff;
+      --border: rgba(24, 50, 71, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Source Sans 3", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(159, 122, 75, 0.08), transparent 28%),
+        var(--paper-bg);
+    }
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 3rem 1.2rem 4rem;
+    }
+    h1, h2 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      letter-spacing: 0.01em;
+      margin: 0 0 1rem;
+    }
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 4.6rem);
+      line-height: 0.94;
+      max-width: 14ch;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    p {
+      line-height: 1.65;
+      color: var(--ink);
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 0.9rem;
+    }
+    .authors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.8rem;
+      margin: 1rem 0;
+      color: var(--muted);
+    }
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.2rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.45rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(159, 122, 75, 0.35);
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1rem;
+      box-shadow: 0 18px 36px rgba(24, 50, 71, 0.08);
+    }
+    .hero img {
+      width: 100%;
+      border-radius: 0.85rem;
+      display: block;
+    }
+    .section {
+      margin-top: 2.4rem;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .gallery .panel {
+      padding: 0.65rem;
+    }
+    .gallery-caption {
+      margin-top: 0.55rem;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    .list {
+      display: grid;
+      gap: 0.75rem;
+      padding-left: 1.15rem;
+    }
+    .meta-note {
+      margin-top: 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    pre {
+      overflow-x: auto;
+      border-radius: 0.9rem;
+      padding: 1rem;
+      background: #112637;
+      color: #f2f1ea;
+    }
+    code { font-family: "SFMono-Regular", Consolas, monospace; }
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div>
+        {% if page.site.show_venue_line and (page.site.venue_line or manifest.venue or manifest.year) %}
+          <div class="meta">
+            {% if page.site.venue_line %}
+              {{ page.site.venue_line }}
+            {% else %}
+              {% if manifest.venue %}{{ manifest.venue }}{% endif %}{% if manifest.year %} {{ manifest.year }}{% endif %}
+            {% endif %}
+          </div>
+        {% endif %}
+        <h1>{{ manifest.title }}</h1>
+        {% set show_affiliation_indices = manifest.affiliations and (manifest.affiliations|length > 1) %}
+        {% if manifest.author_entries %}
+          <div class="authors">
+            {% for author in manifest.author_entries %}
+              <span>
+                {{ author.name }}
+                {% if show_affiliation_indices and author.affiliation_indices %}
+                  <sup>{{ author.affiliation_indices | join(',') }}</sup>
+                {% endif %}
+              </span>
+            {% endfor %}
+          </div>
+        {% elif manifest.authors %}
+          <div class="authors">
+            {% for author in manifest.authors %}
+              <span>{{ author }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if manifest.affiliations %}
+          <div class="meta">
+            {% for affiliation in manifest.affiliations %}
+              <span>
+                {% if show_affiliation_indices %}<sup>{{ loop.index }}</sup>{% endif %}
+                {{ affiliation }}
+              </span>{% if not loop.last %} · {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+        <div class="chip-row">
+          {% for item in page.site.cta_links %}
+            {% set url = page.links.get(item.key) %}
+            {% if url %}
+              <a class="chip" href="{{ url }}">{{ item.label }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% if page.site.show_generation_note and instruction_stack %}
+          <p class="meta-note">This draft was generated with layered editorial guidance. Explicit user instructions were applied above built-in defaults.</p>
+        {% endif %}
+      </div>
+
+      {% if selected_assets %}
+        <div class="panel">
+          <img src="{{ selected_assets[0] }}" alt="Hero figure">
+        </div>
+      {% endif %}
+    </section>
+
+    {% if page.sections.show_abstract and manifest.abstract %}
+      <section class="section">
+        <h2>Abstract</h2>
+        <p>{{ manifest.abstract }}</p>
+      </section>
+    {% endif %}
+
+        {% if page.sections.show_highlights %}
+          <section class="section">
+            <h2>Highlights</h2>
+            <ul class="list">
+          {% if page.highlights["items"] %}
+            {% for item in page.highlights["items"] %}
+              <li>{{ item }}</li>
+            {% endfor %}
+          {% else %}
+            {% for section in manifest.sections[:4] %}
+              <li>{{ section.title }}</li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </section>
+    {% endif %}
+
+    {% if page.sections.show_gallery and selected_assets|length > 1 %}
+      <section class="section">
+        <h2>Selected Figures</h2>
+        <div class="gallery">
+          {% for asset in selected_assets[1:] %}
+            <div class="panel">
+              <img src="{{ asset }}" alt="Selected figure">
+              <div class="gallery-caption">{{ asset }}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% if page.sections.show_bibtex and manifest.bibliography_files %}
+      <section class="section">
+        <h2>Bibliography Inputs</h2>
+        <pre><code>{% for bib in manifest.bibliography_files %}{{ bib }}
+{% endfor %}</code></pre>
+      </section>
+    {% endif %}
+  </main>
+</body>
+</html>

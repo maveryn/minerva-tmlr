@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ manifest.title }}{% if page.site.title_suffix %} | {{ page.site.title_suffix }}{% endif %}</title>
+  <meta name="description" content="{{ manifest.abstract }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="{{ asset_urls.get('static/index.css', 'static/index.css') }}">
+</head>
+<body>
+  <section class="hero paperpage-hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="paperpage-hero-header">
+          <h1 class="title is-1 publication-title">{{ manifest.title }}</h1>
+          {% set show_affiliation_indices = manifest.affiliations and (manifest.affiliations|length > 1) %}
+          {% if manifest.author_entries %}
+            <div class="publication-authors">
+              {% for author in manifest.author_entries %}
+                <span class="author-block">
+                  {{ author.name }}
+                  {% if show_affiliation_indices and author.affiliation_indices %}
+                    <sup class="author-affiliation-sup">{{ author.affiliation_indices | join(',') }}</sup>
+                  {% endif %}
+                </span>{% if not loop.last %}<span class="author-sep">·</span>{% endif %}
+              {% endfor %}
+            </div>
+          {% elif manifest.authors %}
+            <div class="publication-authors">
+              {% for author in manifest.authors %}
+                <span class="author-block">{{ author }}</span>{% if not loop.last %}<span class="author-sep">·</span>{% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+          {% if manifest.affiliations %}
+            <div class="paperpage-affiliations">
+              {% for affiliation in manifest.affiliations %}
+                <span class="paperpage-affiliation">
+                  {% if show_affiliation_indices %}
+                    <sup class="paperpage-affiliation-sup">{{ loop.index }}</sup>
+                  {% endif %}
+                  {{ affiliation }}
+                </span>{% if not loop.last %}<span class="author-sep">·</span>{% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+          {% if page.site.show_venue_line and (page.site.venue_line or manifest.venue or manifest.year) %}
+            <p class="paperpage-eyebrow">
+              {% if page.site.venue_line %}
+                {{ page.site.venue_line }}
+              {% else %}
+                {% if manifest.venue %}{{ manifest.venue }}{% endif %}{% if manifest.year %} {{ manifest.year }}{% endif %}
+              {% endif %}
+            </p>
+          {% endif %}
+
+          <div class="publication-links">
+            {% for item in page.site.cta_links %}
+              {% set raw_url = page.links.get(item.key) %}
+              {% set url = asset_urls.get(raw_url, raw_url) %}
+              {% if url %}
+                <span class="link-block">
+                  <a href="{{ url }}" class="button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      {% if item.key == "paper_pdf" %}
+                        <i class="fas fa-file-pdf"></i>
+                      {% elif item.key == "code" %}
+                        <i class="fab fa-github"></i>
+                      {% elif item.key == "data" %}
+                        <i class="fas fa-database"></i>
+                      {% else %}
+                        <i class="fas fa-link"></i>
+                      {% endif %}
+                    </span>
+                    <span>{{ item.label }}</span>
+                  </a>
+                </span>
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          {% if page.site.show_generation_note and instruction_stack %}
+            <p class="paperpage-note">
+              This draft was generated with layered editorial guidance. Explicit user instructions take priority over project config and defaults.
+            </p>
+          {% endif %}
+        </div>
+
+        {% if hero_asset %}
+          <div class="paperpage-showcase-wrap">
+            <div class="paperpage-teaser-frame">
+              <img src="{{ asset_urls.get(hero_asset, hero_asset) }}" alt="Project teaser figure">
+            </div>
+          </div>
+        {% endif %}
+
+        {% if page.hero.details and page.hero.details["items"] %}
+          <div class="paperpage-detail-wrap">
+            {% if page.hero.details["heading"] %}
+              <h2 class="title is-4 paperpage-detail-heading">{{ page.hero.details["heading"] }}</h2>
+            {% endif %}
+            <div class="paperpage-detail-grid paperpage-balanced-grid paperpage-balanced-grid--{{ page.hero.details["items"]|length }}">
+              {% for item in page.hero.details["items"] %}
+                <article class="paperpage-detail-card">
+                  {% if item.image %}
+                    <div class="paperpage-detail-image-wrap">
+                      <img src="{{ asset_urls.get(item.image, item.image) }}" alt="{{ item.title or 'Representative task' }}" class="paperpage-detail-image">
+                    </div>
+                  {% endif %}
+                  {% if item.title %}
+                    <h3 class="paperpage-detail-title">{{ item.title }}</h3>
+                  {% endif %}
+                  {% for line in item.lines or [] %}
+                    <p class="paperpage-detail-line">
+                      {% if line.label %}<span class="paperpage-detail-label">{{ line.label }}:</span>{% endif %}
+                      <span>{{ line.text }}</span>
+                    </p>
+                  {% endfor %}
+                </article>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        {% if manifest.summary %}
+          <div class="paperpage-summary-wrap">
+            <p class="paperpage-summary">{{ manifest.summary }}</p>
+          </div>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if page.sections.show_abstract and manifest.abstract %}
+    <section class="section paperpage-abstract">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>{{ manifest.abstract }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+    {% if page.sections.show_highlights %}
+      <section class="section">
+        <div class="container is-max-desktop">
+          <h2 class="title is-3">Highlights</h2>
+        {% set highlight_items = page.highlights["items"] or manifest.sections[:4] %}
+        <div class="paperpage-highlight-grid paperpage-balanced-grid paperpage-balanced-grid--{{ highlight_items|length }}">
+          {% if page.highlights["items"] %}
+            {% for item in highlight_items %}
+              <article class="paperpage-highlight-card">
+                <p>{{ item }}</p>
+              </article>
+            {% endfor %}
+          {% else %}
+            {% for section in highlight_items %}
+              <article class="paperpage-highlight-card">
+                <p>{{ section.title }}</p>
+              </article>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      </section>
+    {% endif %}
+
+  {% if page.sections.show_story and story_blocks %}
+    {% for block in story_blocks %}
+      <section class="section paperpage-story">
+        <div class="container is-max-desktop">
+          <h2 class="title is-3">{{ block.title }}</h2>
+          {% if block.layout in ["stacked", "gallery-top"] %}
+            <div class="paperpage-story-stack">
+              {% if block.asset_kind == "figure" %}
+                {% if block.layout == "gallery-top" and block.asset_images and block.asset_images|length > 1 %}
+                  <div class="paperpage-gallery-grid paperpage-gallery-grid--top paperpage-balanced-grid paperpage-balanced-grid--{{ block.asset_images|length }}">
+                    {% for image in block.asset_images %}
+                      <div class="paperpage-gallery-card">
+                        <img src="{{ asset_urls.get(image, image) }}" alt="{{ block.title }}">
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  <div class="paperpage-visual-stack">
+                    {% for image in block.asset_images %}
+                      <div class="paperpage-gallery-card paperpage-gallery-card--wide">
+                        <img src="{{ asset_urls.get(image, image) }}" alt="{{ block.title }}">
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              {% elif block.asset_kind == "table" %}
+                <div class="paperpage-evidence-card paperpage-evidence-card--wide">
+                  <p class="paperpage-story-kicker">Result Summary</p>
+                  <p class="paperpage-evidence-copy">{{ block.asset_caption }}</p>
+                </div>
+              {% endif %}
+              <div class="paperpage-story-text paperpage-story-text--stacked">
+                <p>{{ block.body }}</p>
+              </div>
+              {% if block.details and block.details["items"] %}
+                <div class="paperpage-detail-wrap paperpage-detail-wrap--section">
+                  {% if block.details["heading"] %}
+                    <h3 class="title is-5 paperpage-detail-heading">{{ block.details["heading"] }}</h3>
+                  {% endif %}
+                  <div class="paperpage-detail-grid paperpage-balanced-grid paperpage-balanced-grid--{{ block.details["items"]|length }}">
+                    {% for item in block.details["items"] %}
+                      <article class="paperpage-detail-card">
+                        {% if item.image %}
+                          <div class="paperpage-detail-image-wrap">
+                            <img src="{{ asset_urls.get(item.image, item.image) }}" alt="{{ item.title or block.title }}" class="paperpage-detail-image">
+                          </div>
+                        {% endif %}
+                        {% if item.title %}
+                          <h4 class="paperpage-detail-title">{{ item.title }}</h4>
+                        {% endif %}
+                        {% for line in item.lines or [] %}
+                          <p class="paperpage-detail-line">
+                            {% if line.label %}<span class="paperpage-detail-label">{{ line.label }}:</span>{% endif %}
+                            <span>{{ line.text }}</span>
+                          </p>
+                        {% endfor %}
+                      </article>
+                    {% endfor %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          {% else %}
+          <div class="columns is-vcentered {% if block.layout == "split-tight" %}is-variable is-3 paperpage-story-block paperpage-story-block--tight{% else %}is-variable is-6 paperpage-story-block{% endif %}">
+            <div class="column {% if block.layout == "split-tight" %}is-6-desktop{% elif loop.index is odd %}is-6-desktop{% else %}is-5-desktop is-offset-1-desktop{% endif %}{% if loop.index is even %} paperpage-story-copy{% endif %}">
+              {% if loop.index is odd %}
+                {% if block.asset_kind == "figure" %}
+                  <div class="{% if block.asset_images and block.asset_images|length > 1 %}paperpage-gallery-grid paperpage-balanced-grid paperpage-balanced-grid--{{ block.asset_images|length }}{% else %}paperpage-gallery-card{% endif %}">
+                    {% if block.asset_images and block.asset_images|length > 1 %}
+                      {% for image in block.asset_images %}
+                        <div class="paperpage-gallery-card">
+                          <img src="{{ asset_urls.get(image, image) }}" alt="{{ block.title }}">
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      <img src="{{ asset_urls.get(block.asset_image, block.asset_image) }}" alt="{{ block.title }}">
+                    {% endif %}
+                  </div>
+                {% elif block.asset_kind == "table" %}
+                  <div class="paperpage-evidence-card">
+                    <p class="paperpage-story-kicker">Result Summary</p>
+                    <p class="paperpage-evidence-copy">{{ block.asset_caption }}</p>
+                  </div>
+                {% else %}
+                  <div class="paperpage-evidence-card">
+                    <p class="paperpage-story-kicker">Section Summary</p>
+                    <p class="paperpage-evidence-copy">{{ block.body }}</p>
+                  </div>
+                {% endif %}
+              {% else %}
+                <div class="paperpage-story-text">
+                  <p>{{ block.body }}</p>
+                </div>
+              {% endif %}
+            </div>
+            <div class="column {% if block.layout == "split-tight" %}is-6-desktop{% elif loop.index is odd %}is-5-desktop is-offset-1-desktop{% else %}is-6-desktop{% endif %}">
+              {% if loop.index is odd %}
+                <div class="paperpage-story-text">
+                  <p>{{ block.body }}</p>
+                </div>
+              {% else %}
+                {% if block.asset_kind == "figure" %}
+                  <div class="{% if block.asset_images and block.asset_images|length > 1 %}paperpage-gallery-grid paperpage-balanced-grid paperpage-balanced-grid--{{ block.asset_images|length }}{% else %}paperpage-gallery-card{% endif %}">
+                    {% if block.asset_images and block.asset_images|length > 1 %}
+                      {% for image in block.asset_images %}
+                        <div class="paperpage-gallery-card">
+                          <img src="{{ asset_urls.get(image, image) }}" alt="{{ block.title }}">
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      <img src="{{ asset_urls.get(block.asset_image, block.asset_image) }}" alt="{{ block.title }}">
+                    {% endif %}
+                  </div>
+                {% elif block.asset_kind == "table" %}
+                  <div class="paperpage-evidence-card">
+                    <p class="paperpage-story-kicker">Result Summary</p>
+                    <p class="paperpage-evidence-copy">{{ block.asset_caption }}</p>
+                  </div>
+                {% else %}
+                  <div class="paperpage-evidence-card">
+                    <p class="paperpage-story-kicker">Section Summary</p>
+                    <p class="paperpage-evidence-copy">{{ block.body }}</p>
+                  </div>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </section>
+    {% endfor %}
+  {% endif %}
+
+  {% if page.sections.show_bibtex %}
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="paperpage-bibtex-header">
+          <h2 class="title is-3">BibTeX</h2>
+          <button class="button is-light is-small paperpage-copy-btn" onclick="copyBibTeX()">
+            <span class="icon"><i class="fas fa-copy"></i></span>
+            <span>Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>{{ generated_bibtex }}</code></pre>
+      </div>
+    </section>
+  {% endif %}
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was generated with <strong>paperpage</strong> and is styled after the
+              <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener noreferrer">Academic Project Page Template</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ asset_urls.get('static/index.js', 'static/index.js') }}"></script>
+</body>
+</html>

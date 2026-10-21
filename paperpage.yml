@@ -1,0 +1,93 @@
+theme: minerva-research
+site:
+  title_suffix: TMLR 2026
+  venue_line: Accepted at TMLR · 2026
+  canonical_url: https://maveryn.github.io/minerva-tmlr/
+  description: Minerva trains open-weight language models for cyber threat intelligence with verifiable rewards and auxiliary self-training.
+  cta_links:
+    - {label: Read the paper, key: paper_pdf}
+    - {label: Code, key: code}
+    - {label: OpenReview, key: openreview}
+  affiliation_labels:
+    - Rochester Institute of Technology
+    - University of Texas at El Paso
+    - Florida Atlantic University
+links:
+  paper_pdf: assets/pdfs/minerva-camera-ready.pdf
+  code: https://github.com/Athena-Software-Group/minerva
+  openreview: https://openreview.net/forum?id=w1IMu9exKC
+  page_source: https://github.com/maveryn/minerva-tmlr
+hero:
+  figure: assets/figures/minerva-overview.svg
+  alt: Public security knowledge becomes 16 verifier-checkable CTI tasks. MinervaRL combines GRPO with verified, filtered teacher traces for hard prompts, then learns from those traces on the original prompts.
+  caption: Public security knowledge. Checkable answers. A stronger learning signal.
+highlights:
+  items:
+    - {value: '16', label: verifier-checkable training tasks}
+    - {value: '32,000', label: curated training examples}
+    - {value: '+15.8', label: points over base models}
+    - {value: '+4.3', label: points over standard GRPO}
+story:
+  max_items: 5
+  sections:
+    - title: Minerva-CTI Dataset
+      heading: Security knowledge with checkable answers.
+      kind: dataset
+      id: dataset
+      eyebrow: '01 / Minerva-CTI'
+      evidence: text
+      body: Minerva-CTI turns public standards, knowledge bases, and detection resources into 16 training tasks. Each example pairs an analyst-style prompt with a canonical target and a task-specific verifier. The split contains 32,000 training and 1,200 validation instances.
+    - title: Methodology
+      heading: When rewards are sparse, learn from verified traces.
+      kind: method
+      id: method
+      eyebrow: '02 / MinervaRL'
+      figures: [assets/figures/method-original.png]
+      layout: stacked
+      body: MinervaRL keeps the standard GRPO loop and adds an auxiliary self-training path. Prompts without a fully verified rollout receive extra help from a teacher. Accepted traces are distilled back onto the original, answer-free prompts.
+    - title: CTI Benchmark Results
+      heading: Higher average scores across all four backbones.
+      kind: results
+      id: results
+      eyebrow: '03 / Main results'
+      figures: [assets/figures/benchmark-comparison.svg]
+      layout: stacked
+      body: Across 12 CTI benchmarks and four open-weight backbones, MinervaRL improves the mean score by 15.8 percentage points over the corresponding base models and by 4.3 points over GRPO. It has the highest average within each backbone group in the reported comparisons.
+    - title: Training Dynamics and Additional Evaluations
+      heading: Fewer stalled prompts. Earlier validation progress.
+      kind: dynamics
+      id: dynamics
+      eyebrow: '04 / Training dynamics'
+      figures: [assets/figures/reward-sparsity.png, assets/figures/validation-progress.png]
+      layout: stacked
+      body: The training curves connect the method to its motivation. MinervaRL reduces the fraction of prompts whose sampled rollout group earns no verifier reward and reaches the best GRPO validation accuracy earlier in training.
+    - title: Limitations and Future Work
+      heading: A useful step, with clear limits.
+      kind: scope
+      id: scope
+      eyebrow: '05 / Scope & limitations'
+      evidence: text
+      body: The strongest gains concentrate on structured, verifier-aligned tasks. Results do not imply uniform improvement on every task or establish reliability for autonomous security decisions.
+assets:
+  copies:
+    - {source: site/assets/minerva-overview.svg, dest: assets/figures/minerva-overview.svg}
+    - {source: site/assets/benchmark-comparison.svg, dest: assets/figures/benchmark-comparison.svg}
+    - {source: site/assets/method-original.png, dest: assets/figures/method-original.png}
+    - {source: site/assets/reward-sparsity.png, dest: assets/figures/reward-sparsity.png}
+    - {source: site/assets/validation-progress.png, dest: assets/figures/validation-progress.png}
+    - {source: site/assets/minerva-camera-ready.pdf, dest: assets/pdfs/minerva-camera-ready.pdf, link_key: paper_pdf}
+citation:
+  bibtex: |
+    @article{alam2026minerva,
+      title = {Minerva: Reinforcement Learning with Verifiable Rewards for Cyber Threat Intelligence LLMs},
+      author = {Alam, Md Tanvirul and Piplai, Aritran and Cardei, Ionut and Rastogi, Nidhi and Worth, Jr., Peter J},
+      journal = {Transactions on Machine Learning Research},
+      year = {2026},
+      url = {https://openreview.net/forum?id=w1IMu9exKC}
+    }
+instructions: |
+  Preserve the five approved authors in their paper order. Present TMLR acceptance
+  and use the Athena-Software-Group/minerva repository for every code CTA. Distinguish
+  training tasks from evaluation benchmarks. Report percentage-point changes,
+  fixed-checkpoint bootstrap uncertainty, and heterogeneous task-level outcomes.
+  Keep the page static, accessible, responsive, and free of analytics or credentials.
